@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>División Dataset NSL-KDD</title>
+</head>
+<body style="font-family: Arial, sans-serif; background:#f7f7f7; margin:0; padding:30px; text-align:center;">
+  <div style="max-width:900px; margin:0 auto; background:white; padding:20px; border-radius:8px; box-shadow:0 0 8px rgba(0,0,0,0.08);">
+    <h1 style="margin-top:0;">Subir archivo .ARFF</h1>
+
+    <form method="post" enctype="multipart/form-data" style="margin-bottom:20px;">
+      {% csrf_token %}
+      <input type="file" name="file" accept=".arff" required>
+      <button type="submit" style="margin-left:8px; padding:8px 14px; background:#007bff; color:white; border:none; border-radius:4px;">Aceptar</button>
+    </form>
+
+    {% if rows and columns %}
+      <div style="text-align:left; margin: 10px 0 20px 0; padding:10px; background:#fafafa; border-radius:6px;">
+        <strong>Columnas:</strong> {{ columns|length }} &nbsp; | &nbsp;
+        <strong>Registros:</strong> {{ rows }} <br>
+        <small>Columnas: {{ columns|join:", " }}</small>
+      </div>
+    {% endif %}
+
+    {% if graphs %}
+      <h2>Gráficas generadas</h2>
+      <div style="display:flex; flex-wrap:wrap; justify-content:center;">
+        {% for g in graphs %}
+          {% if g %}
+            <div style="margin:8px; border:1px solid #e0e0e0; padding:6px; background:white;">
+              <img src="data:image/png;base64,{{ g }}" style="display:block; max-width:420px; height:auto;">
+            </div>
+          {% else %}
+            <div style="margin:8px; padding:12px; border:1px dashed #ddd; color:#666;">
+              Gráfica no disponible
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>

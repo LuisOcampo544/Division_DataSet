@@ -1,0 +1,5 @@
+django
+pandas
+matplotlib
+scikit-learn
+liac-arff

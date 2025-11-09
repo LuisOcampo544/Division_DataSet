@@ -25,14 +25,15 @@
     {% if graphs %}
       <h2>Gráficas generadas</h2>
       <div style="display:flex; flex-wrap:wrap; justify-content:center;">
-        {% for g in graphs %}
+        {% for g, title in graphs %}
           {% if g %}
-            <div style="margin:8px; border:1px solid #e0e0e0; padding:6px; background:white;">
+            <div style="margin:8px; border:1px solid #e0e0e0; padding:6px; background:white; border-radius:6px;">
+              <h4 style="margin:4px 0;">{{ title }}</h4>
               <img src="data:image/png;base64,{{ g }}" style="display:block; max-width:420px; height:auto;">
             </div>
           {% else %}
             <div style="margin:8px; padding:12px; border:1px dashed #ddd; color:#666;">
-              Gráfica no disponible
+              {{ title }} - No disponible
             </div>
           {% endif %}
         {% endfor %}

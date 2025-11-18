@@ -1,3 +1,5 @@
+# views.py
+
 # Importamos todas las herramientas que necesitamos para procesar los datos y la web.
 import io
 import base64
@@ -111,18 +113,18 @@ def upload_file(request):
                 "Distribución de protocol_type (test_set)",
             ]
         
-    # --- Generación del HTML de la tabla de muestra ---
+    # --- Generación del HTML de la tabla del dataset COMPLETO ---
     sample_html = None
     if df is not None:
-        # Genera el HTML de una tabla con las primeras 10 filas del DataFrame
-        sample_html = df.head(10).to_html(classes='table table-striped', index=False)
-    # ----------------------------------------------------
+        # Genera el HTML de una tabla con el DataFrame completo (ya no usa .head(10))
+        sample_html = df.to_html(classes='table table-striped', index=False)
+    # -----------------------------------------------------------
 
     # Prepara los datos para enviarlos a la plantilla HTML.
     context = {
         'graphs': zip(graphs, graph_titles),
         'columns': columns,
         'rows': rows,
-        'sample_html': sample_html, # Nuevo dato para la muestra
+        'sample_html': sample_html,
     }
     return render(request, 'upload.html', context)

@@ -90,7 +90,9 @@
 
     /* Estilos para la tabla generada por Pandas */
     .sample-data {
-      overflow-x: auto; /* Permite desplazamiento horizontal si hay muchas columnas */
+      overflow-x: auto; /* Deslizamiento horizontal */
+      overflow-y: scroll; /* Deslizamiento vertical (barra deslizable) */
+      max-height: 400px; /* Altura máxima para activar la barra vertical */
       margin-top: 15px;
     }
     
@@ -111,6 +113,7 @@
       background-color: #e0e7ef;
       color: #003366;
       font-weight: bold;
+      /* Fija el encabezado si es necesario, aunque complica el scroll. Lo dejamos simple por ahora. */
     }
     
     .sample-data tr:nth-child(even) {
@@ -186,7 +189,7 @@
         </p>
         
         {% if sample_html %}
-            <h3>Muestra (Primeras 10 Filas)</h3>
+            <h3>Dataset Completo</h3>
             <div class="sample-data">
                 {{ sample_html|safe }}
             </div>

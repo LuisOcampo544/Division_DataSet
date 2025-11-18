@@ -1,12 +1,13 @@
+# Importamos todas las herramientas que necesitamos para procesar los datos y la web.
 import io
 import base64
 import pandas as pd
 import matplotlib.pyplot as plt
 from django.shortcuts import render
 from sklearn.model_selection import train_test_split
-import arff   # liac-arff
+import arff
 
-# --- helpers ---
+# Convierte la gráfica de Matplotlib a un formato de texto (Base64) para poder mostrarla en el HTML.
 def fig_to_base64():
     buf = io.BytesIO()
     plt.tight_layout()
@@ -16,6 +17,7 @@ def fig_to_base64():
     return base64.b64encode(buf.read()).decode('utf-8')
 
 
+# Lee el archivo .ARFF subido y lo transforma en un DataFrame de Pandas.
 def load_kdd_dataset_from_fileobj(file_obj):
     try:
         raw = file_obj.read()
@@ -34,8 +36,7 @@ def load_kdd_dataset_from_fileobj(file_obj):
         except Exception:
             pass
 
-
-# Vista
+# Función que gestiona la subida del archivo, divide el dataset y genera las gráficas de distribución.
 def upload_file(request):
     graphs = []
     graph_titles = []
@@ -44,18 +45,20 @@ def upload_file(request):
 
     if request.method == 'POST' and request.FILES.get('file'):
         uploaded = request.FILES['file']
+        
+        # Carga el archivo y obtiene el número de registros y columnas.
         df = load_kdd_dataset_from_fileobj(uploaded)
         columns = df.columns.tolist()
         rows = len(df)
 
-        # Dividir en train, val, test (60% train, 20% val, 20% test)
+        # Divide el dataset en tres conjuntos (Entrenamiento, Validación y Prueba).
         train_set, temp_set = train_test_split(df, test_size=0.4, random_state=42)
         val_set, test_set = train_test_split(temp_set, test_size=0.5, random_state=42)
 
-        # Verificar que exista la columna protocol_type
+        # Verifica la existencia de la columna y genera histogramas para ver la distribución en los cuatro sets.
         if "protocol_type" in df.columns:
             try:
-                # 1) df["protocol_type"].hist()
+                # 1) Gráfica del set original (df).
                 plt.figure(figsize=(6,4))
                 df["protocol_type"].hist()
                 plt.title("Distribución de protocol_type en df")
@@ -66,7 +69,7 @@ def upload_file(request):
                 graph_titles.append("Distribución de protocol_type (df)")
 
             try:
-                # 2) train_set["protocol_type"].hist()
+                # 2) Gráfica del set de Entrenamiento (train_set).
                 plt.figure(figsize=(6,4))
                 train_set["protocol_type"].hist()
                 plt.title("Distribución de protocol_type en train_set")
@@ -77,7 +80,7 @@ def upload_file(request):
                 graph_titles.append("Distribución de protocol_type (train_set)")
 
             try:
-                # 3) val_set["protocol_type"].hist()
+                # 3) Gráfica del set de Validación (val_set).
                 plt.figure(figsize=(6,4))
                 val_set["protocol_type"].hist()
                 plt.title("Distribución de protocol_type en val_set")
@@ -88,7 +91,7 @@ def upload_file(request):
                 graph_titles.append("Distribución de protocol_type (val_set)")
 
             try:
-                # 4) test_set["protocol_type"].hist()
+                # 4) Gráfica del set de Prueba (test_set).
                 plt.figure(figsize=(6,4))
                 test_set["protocol_type"].hist()
                 plt.title("Distribución de protocol_type en test_set")
@@ -98,6 +101,7 @@ def upload_file(request):
                 graphs.append(None)
                 graph_titles.append("Distribución de protocol_type (test_set)")
         else:
+            # Si no hay columna, se marca la gráfica como no disponible.
             graphs = [None, None, None, None]
             graph_titles = [
                 "Distribución de protocol_type (df)",
@@ -106,6 +110,7 @@ def upload_file(request):
                 "Distribución de protocol_type (test_set)",
             ]
 
+    # Prepara los datos para enviarlos a la plantilla HTML.
     context = {
         'graphs': zip(graphs, graph_titles),
         'columns': columns,

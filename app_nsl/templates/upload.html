@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <title>Análisis Dataset NSL-KDD</title>
   <style>
-    /* Estilos Generales */
+    /* Diseño General */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f4f8; /* Gris azulado muy claro */
+      background-color: #f0f4f8;
       margin: 0;
       padding: 50px 20px;
       text-align: center;
@@ -24,18 +24,18 @@
     }
 
     h1 {
-      color: #003366; /* Azul oscuro */
+      color: #003366; 
       margin-top: 0;
       border-bottom: 2px solid #e0e7ef;
       padding-bottom: 10px;
       margin-bottom: 30px;
     }
 
-    /* Estilos del Formulario */
+    /* Diseño Formulario */
     .upload-form {
       margin-bottom: 30px;
       padding: 20px;
-      background-color: #e0e7ef; /* Gris azulado claro */
+      background-color: #e0e7ef; 
       border-radius: 8px;
       display: inline-block;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -51,7 +51,7 @@
 
     .upload-form button[type="submit"] {
       padding: 10px 20px;
-      background: #0056b3; /* Azul medio */
+      background: #0056b3; 
       color: white;
       border: none;
       border-radius: 4px;
@@ -62,12 +62,12 @@
     }
 
     .upload-form button[type="submit"]:hover {
-      background: #003d80; /* Azul más oscuro al pasar el mouse */
+      background: #003d80;
     }
 
-    /* Estilos de las Gráficas */
+    /* Diseño Graficas */
     h2 {
-      color: #0056b3; /* Azul medio */
+      color: #0056b3; 
       margin-top: 40px;
       margin-bottom: 20px;
     }
@@ -76,7 +76,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px; /* Espacio entre los elementos de gráfica */
+      gap: 20px; 
     }
 
     .graph-item {
@@ -85,7 +85,7 @@
       padding: 15px;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      max-width: 450px; /* Ajuste para un buen tamaño */
+      max-width: 450px; 
       text-align: center;
     }
 
@@ -114,7 +114,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>📊 Subir archivo de Datos .ARFF</h1>
+    <h1>Subir archivo de Datos .ARFF</h1>
 
     <form method="post" enctype="multipart/form-data" class="upload-form">
       {% csrf_token %}

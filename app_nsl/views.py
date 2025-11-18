@@ -35,7 +35,7 @@ def load_kdd_dataset_from_fileobj(file_obj):
             pass
 
 
-# --- vista ---
+# Vista
 def upload_file(request):
     graphs = []
     graph_titles = []
@@ -48,7 +48,7 @@ def upload_file(request):
         columns = df.columns.tolist()
         rows = len(df)
 
-        # dividir en train, val, test (60% train, 20% val, 20% test)
+        # Dividir en train, val, test (60% train, 20% val, 20% test)
         train_set, temp_set = train_test_split(df, test_size=0.4, random_state=42)
         val_set, test_set = train_test_split(temp_set, test_size=0.5, random_state=42)
 

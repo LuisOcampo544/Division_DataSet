@@ -64,12 +64,67 @@
     .upload-form button[type="submit"]:hover {
       background: #003d80;
     }
+    
+    /* --- ESTILOS PARA LA MUESTRA DEL DATASET --- */
+    .dataset-summary {
+      text-align: left;
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f7f9fc;
+      border: 1px solid #e0e7ef;
+      border-radius: 8px;
+    }
+    
+    .dataset-summary h2 {
+      margin-top: 0;
+      color: #003366;
+    }
+
+    .dataset-summary h3 {
+        color: #0056b3;
+        font-size: 1.2em;
+        margin-top: 20px;
+        border-bottom: 1px solid #e0e7ef;
+        padding-bottom: 5px;
+    }
+
+    /* Estilos para la tabla generada por Pandas */
+    .sample-data {
+      overflow-x: auto; /* Permite desplazamiento horizontal si hay muchas columnas */
+      margin-top: 15px;
+    }
+    
+    .sample-data table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85em;
+      text-align: left;
+    }
+
+    .sample-data th, .sample-data td {
+      padding: 8px 12px;
+      border: 1px solid #c0ccd9;
+      white-space: nowrap; 
+    }
+
+    .sample-data th {
+      background-color: #e0e7ef;
+      color: #003366;
+      font-weight: bold;
+    }
+    
+    .sample-data tr:nth-child(even) {
+        background-color: #fcfcfc;
+    }
+    /* -------------------------------------- */
+
 
     /* Diseño Graficas */
-    h2 {
+    h2.graphs-title {
       color: #0056b3; 
       margin-top: 40px;
       margin-bottom: 20px;
+      text-align: center;
     }
 
     .graphs-container {
@@ -122,18 +177,26 @@
       <button type="submit">Cargar Archivo</button>
     </form>
 
-    {% comment %}
     {% if rows and columns %}
-      <div style="display:none;">
-        <strong>Columnas:</strong> {{ columns|length }} &nbsp; | &nbsp;
-        <strong>Registros:</strong> {{ rows }} <br>
-        <small>Columnas: {{ columns|join:", " }}</small>
+      <div class="dataset-summary">
+        <h2>Resumen del Dataset</h2>
+        <p>
+            <strong>Columnas:</strong> {{ columns|length }} <br>
+            <strong>Registros Totales:</strong> {{ rows }}
+        </p>
+        
+        {% if sample_html %}
+            <h3>Muestra (Primeras 10 Filas)</h3>
+            <div class="sample-data">
+                {{ sample_html|safe }}
+            </div>
+        {% endif %}
       </div>
     {% endif %}
-    {% endcomment %}
+
 
     {% if graphs %}
-      <h2>Análisis y Visualizaciones</h2>
+      <h2 class="graphs-title">Visualizaciones de protocol_type</h2>
       <div class="graphs-container">
         {% for g, title in graphs %}
           {% if g %}
